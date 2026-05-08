@@ -9,8 +9,6 @@ number:
 date:
 consensus: true
 v: 3
-area: TBD
-workgroup: TBD
 keyword:
  - moderation
  - endorsement
