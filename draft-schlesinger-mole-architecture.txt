@@ -2,14 +2,14 @@
 
 
 
-WG Working Group                                              Y. N. Here
-Internet-Draft                                    Your Organization Here
+Network Working Group                                     S. Schlesinger
+Internet-Draft                                               Independent
 Intended status: Informational                                8 May 2026
 Expires: 9 November 2026
 
 
-                           TODO - Your title
-                  draft-todo-yourname-protocol-latest
+                           MoLE Architecture
+               draft-schlesinger-mole-architecture-latest
 
 Abstract
 
@@ -19,17 +19,20 @@ About This Document
 
    This note is to be removed before publishing as an RFC.
 
-   The latest revision of this draft can be found at
-   https://example.com/LATEST.  Status information for this document may
-   be found at https://datatracker.ietf.org/doc/draft-todo-yourname-
-   protocol/.
+   The latest revision of this draft can be found at https://moderation-
+   of-unlinkable-endorsements.github.io/architecture-draft/draft-
+   schlesinger-mole-architecture.html.  Status information for this
+   document may be found at https://datatracker.ietf.org/doc/draft-
+   schlesinger-mole-architecture/.
 
-   Discussion of this document takes place on the WG Working Group
-   mailing list (mailto:WG@example.com), which is archived at
-   https://example.com/WG.
+   Discussion of this document takes place on the Anti-Fraud Community
+   Group Community Group mailing list (mailto:public-antifraud@w3.org),
+   which is archived at https://lists.w3.org/Archives/Public/public-
+   antifraud/.
 
    Source for this draft and an issue tracker can be found at
-   https://github.com/USER/REPO.
+   https://github.com/Moderation-of-unLinkable-Endorsements/
+   architecture-draft.
 
 Status of This Memo
 
@@ -109,6 +112,6 @@ Acknowledgments
 
 Author's Address
 
-   Your Name Here
-   Your Organization Here
-   Email: your.email@example.com
+   Samuel Schlesinger
+   Independent
+   Email: sgschlesinger@gmail.com
