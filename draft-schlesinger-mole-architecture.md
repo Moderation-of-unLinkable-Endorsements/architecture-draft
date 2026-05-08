@@ -15,12 +15,12 @@ keyword:
  - unlinkability
  - privacy
 venue:
-  group: "Anti-Fraud Community Group"
-  type: "Community Group"
-  mail: "public-antifraud@w3.org"
-  arch: "https://lists.w3.org/Archives/Public/public-antifraud/"
+#  group: "Anti-Fraud Community Group"
+#  type: "Community Group"
+#  mail: "public-antifraud@w3.org"
+#  arch: "https://lists.w3.org/Archives/Public/public-antifraud/"
   github: "Moderation-of-unLinkable-Endorsements/architecture-draft"
-  latest: "https://moderation-of-unlinkable-endorsements.github.io/architecture-draft/draft-schlesinger-mole-architecture.html"
+  latest: "https://Moderation-of-unLinkable-Endorsements.github.io/architecture-draft/draft-schlesinger-mole-architecture.html"
 
 author:
  -
