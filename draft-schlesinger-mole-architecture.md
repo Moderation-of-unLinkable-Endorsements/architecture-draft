@@ -31,6 +31,11 @@ author:
 normative:
 
 informative:
+  INTERNET-END-USER: RFC8890
+  OBLIVIOUS-HTTP: RFC9458
+  PERVASIVE-MONITORING: RFC7258
+  RFC9110:
+  RFC9576:
 
 ...
 
@@ -44,109 +49,47 @@ TODO Abstract
 # Introduction
 
 Moderation of unLinkable Endorsements (MoLE) is an architecture in which
-Origins admit users on the basis of unlinkable, issuer-hiding credentials
-derived from scarce signals.
+Origins make authorization decisions from unlinkable, issuer-hiding credential
+presentations derived from scarce signals.
 
-Users of the Web routinely encounter friction at first contact with an Origin:
-from a clean state, behind a VPN, with privacy-sensitive browser defaults, or
-while delegating to a software agent, a user is more likely to face a CAPTCHA,
-be fingerprinted, be silently rejected, or be served a degraded experience. The
-mechanisms behind these outcomes --- cookies, IP-address reputation, browser
-fingerprinting, interactive challenges --- impose friction, surveil users, or
-both. They fall hardest on users with the strongest privacy posture and on
-users with accessibility needs. {{?RFC8890}} directs the IETF to privilege the
-interests of those users; {{?RFC7258}} treats pervasive monitoring of them as
-an attack.
+Users often encounter friction when an Origin has little prior context about
+them: for example, when they arrive with no cookies, use a VPN, enable
+privacy-preserving browser settings, or delegate browsing to a software agent.
+In those cases, the Origin may present a CAPTCHA, use fingerprinting, reject the
+request, or return a degraded experience. These mechanisms add friction,
+collect more information about users, or both. They affect users with strong
+privacy preferences and users with accessibility needs. {{INTERNET-END-USER}}
+directs the IETF to consider the interests of end users;
+{{PERVASIVE-MONITORING}} treats pervasive monitoring as an attack.
 
-The architecture reduces this friction without requiring the user to surrender
-a stable identity to an Origin or reveal the scarce signals they have access
-to. It has three roles.
+MoLE reduces this friction without requiring the user to reveal a stable
+identity to an Origin or disclose which scarce signals they can use. An Anchor
+issues credentials from scarce signals. A Moderator evaluates presentations of
+Anchor credentials under a policy and issues Moderator credentials. A Client
+presents a Moderator credential to an Origin with a request.
 
-1. A Client, running within or alongside a user agent,
-   holds credentials and produces presentations.
+The Anchor/Moderator split avoids binding an Origin's admission policy to one
+source of scarcity. A Moderator commits to a policy. An Origin chooses one or
+more Moderators. The Moderator can then add, remove, or restrict Anchors without
+requiring Origins or Clients to reconfigure. Issuer-hiding presentation makes
+this useful: the Origin learns that the underlying Anchor is in the Moderator's
+accepted set, but not which Anchor issued the credential.
 
-2. An Anchor issues to the Client a
-   credential attesting to a scarce signal: a property an adversary cannot easily
-   fabricate at scale (providing Sybil-resistance), such as possession of a
-   hardware-backed device key, a vetted account at an application-layer service,
-   or successful completion of a proof-of-personhood challenge.
+MoLE is inspired by the Privacy Pass architecture {{RFC9576}}, but differs in
+three ways. First, Moderator issuance depends on an issuer-hiding presentation
+of an Anchor credential. Second, Anchor-credential presentation is intended to
+remain secure against future quantum adversaries. Third, Moderator credentials
+can carry policy state across presentations. These differences motivate a
+separate architecture.
 
-3. A Moderator accepts Anchor credentials from a set selected by its operator,
-   applies a policy, and issues a Moderator credential that the Client presents
-   to an Origin.
-
-Each Anchor-source category which the authors are aware of is today held by a
-population concentrated among a small number of providers, so this architecture
-enables Origins to mitigate concentration in admission decisions. Whether a
-Moderator credential is bound to a single Origin or used across Origins under
-one Moderator's policy is a deployment choice addressed in the Deployment
-Considerations section (TBD). An important goal of this architecture is to
-enable Origins to enable access by the broadest populations of users by
-choosing the Anchors to redundantly cover the user population.
-
-The Anchor/Moderator separation exists to address an openness concern. Were a
-single party to both originate a scarce signal and moderate admission for an
-Origin, the Origin's policy would be bound to that one source of scarcity. The
-split decouples them: a Moderator commits to a policy; an Origin commits to one
-or more Moderators; the Moderator's accepted Anchor set evolves --- admitting
-Anchors with adequate signal quality, kicking or budget-restricting those whose
-signal degrades --- without requiring any Origin or Client to reconfigure.
-Issuer-hiding presentation --- the Origin learns that the underlying Anchor
-belongs to the accepted set but not which member --- is what makes this
-pluralism load-bearing. Without it, the accepted set is at most a disjoint
-union of single-Anchor regimes, and bootstrapping a new Anchor still requires
-bilateral negotiation with every Origin; with it, an Anchor's reach is
-determined by which Moderators include it. The split is this architecture's
-principal mitigation of the centralization concerns framed in {{?RFC9518}}; its
-limits are examined in Deployment Considerations (TBD).
-
-In the framework of {{?RFC6973}}, the architecture imposes three privacy
-requirements on any conforming construction; each must hold against arbitrary
-collusion among Anchor, Moderator, and Origin. First, presentations of a
-Moderator credential are unlinkable to their issuance and to one another, with
-information-theoretic security. Second, presentations are issuer-hiding: they
-reveal nothing about the underlying Anchor beyond membership in the Moderator's
-accepted set. Third, presentations of an Anchor credential are unlinkable to
-their issuance against a computationally bounded adversary that records
-issuance transcripts and later applies quantum computation. A presentation
-conveys to the Origin only the presence or absence of a valid Moderator
-credential under the policy; it carries no further attribute, score, or
-policy-decision payload. The construction must ensure that these properties
-remain inviolable under collusion among the named parties.
-
-Surfaces that lie outside this envelope --- side channels, anonymity-set
-sizing, state-update unlinkability, and behavioural aggregation across
-presentations --- are addressed in {{privacy-properties}}.
-
-MoLE is inspired by the Privacy Pass architecture {{?RFC9576}}: the Client and
-Origin are as in RFC 9576; the Anchor plays the Issuer role for credentials it
-issues to the Client; the Moderator plays the Origin role when verifying an
-Anchor presentation and the Issuer role when issuing a Moderator credential to
-the Client. Three deltas motivate a distinct document rather than a Privacy
-Pass extension. First, the Moderator must verify an Anchor presentation without
-learning which specific Anchor in its accepted set produced it, and this
-issuer-hiding presentation must compose with subsequent Moderator-credential
-issuance to permit bootstrapping one Moderator from another. Second,
-Anchor-credential presentation be unforgeable even in the presence of a
-quantum-capable adversary; meeting this requires post-quantum-secure
-constructions, not the discrete-log based constructions on which the published
-Privacy Pass token issuance modes rely. Third, the Moderator credential bears
-policy state across presentations. These differences end up introducing
-constraints which make it difficult to mold this protocol into the shape that
-the Privacy Pass architecture provides.
-
-This document specifies the architecture's roles, privacy and security
-requirements, and deployment considerations. {{use-cases}} describes the three
-use cases that motivate the design. Concretized wire protocols and
-cryptographic instantiations are addressed in companion documents, the first of
-which will provide post-quantum unlinkability and a follow-up which will
-provide post-quantum forgeability which is references in the preceding
-paragraph.
+This document specifies MoLE roles, privacy and security requirements, and
+deployment considerations. Wire protocols and cryptographic instantiations are
+specified in companion documents.
 
 # Use Cases {#use-cases}
 
 In each use case the Client acts on behalf of a user, as part of, or accessed
-by, a user agent {{?RFC9110}}. The architecture distinguishes the trust the
+by, a user agent {{RFC9110}}. The architecture distinguishes the trust the
 user places in the user agent from any further delegation the user agent may
 itself perform, and does not prejudge the latter.
 
@@ -243,101 +186,146 @@ architecture document but may be included in companion documents.
 
 {::boilerplate bcp14-tagged}
 
+The following terms are used throughout this document:
+
+**Client:**
+: An entity that seeks authorization to an Origin.
+
+**Origin:**
+: An entity that consumes presentations from Clients and uses them to make
+  authorization decisions.
+
+**Moderator:**
+: An entity that consumes presentations from Clients and issues credentials
+  according to a policy.
+
+**Anchor:**
+: An entity that issues credentials to Clients based on scarce signals.
+
+**Credential:**
+: A cryptographic object issued by an Anchor or Moderator to a Client.
+
+**Presentation:**
+: The mechanism by which Clients prove possession of a credential satisfying
+  specified attributes.
+
+**Policy:**
+: Rules used by a Moderator or Origin to evaluate presentations.
+
+# Architecture overview {#architecture}
+
+The Client obtains a credential from an Anchor, presents it to a Moderator, and
+uses the resulting Moderator credential when sending requests to an Origin.
+
+TODO: should tghis be three diagarms so we can detail things better? Should it be
+like reverse flow privacy pass and then map roles (anchor, moderator) onto flows?
+
+~~~ aasvg
++--------+             +--------+             +-----------+             +--------+
+| Client |             | Anchor |             | Moderator |             | Origin |
++---+----+             +---+----+             +-----+-----+             +---+----+
+    |                      |                        |                       |
+    +-- CredentialRequest->|                        |                       |
+    |<-CredentialResponse--+                        |                       |
+CredentialFinalization     |                        |                       |
+    |                      |                        |                       |
+CredentialPresentation     |                        |                       |
+    +----------- CredentialPresentation ----------->|                       |
+    |<----------- CredentialResponse ---------------+                       |
+CredentialFinalization     |                        |                       |
+    |                      |                        |                       |
+CredentialPresentation     |                        |                       |
+    +----------------- Request+CredentialPresentation --------------------->|
+    |                      |                        |<-- ValidateRequest ---+
+    |                      |                        +-- ValidationResult -->|
+    |<---------------- Response+CredentialResponse -------------------------+
+CredentialFinalization     |                        |                       |
+    |                      |                        |                       |
+~~~
+{: #fig-mole-architecture title="MoLE Architecture"}
+
+
+
 
 # Privacy Properties {#privacy-properties}
 
-This section details the privacy properties introduced in the Introduction. The
-cryptographic requirements bind any conforming construction; the wire protocol
-and the cryptographic instantiation are specified in companion documents.
+This section states the privacy goals for MoLE constructions. The wire protocol
+and cryptographic instantiation are specified in companion documents.
 
-## Cryptographic Requirements
+## Goals
 
-The architecture imposes three privacy requirements on any conforming
-construction. Each must hold against arbitrary collusion among Anchor,
-Moderator, and Origin.
+MoLE constructions provide three privacy properties.
 
-1. *Moderator-credential unlinkability.* Presentations of a Moderator
-   credential are unlinkable to their issuance and to one another, with
-   information-theoretic security.
+1. *Moderator-credential unlinkability.* An Origin cannot link two valid
+   Moderator-credential presentations to the same Client from the presentation
+   alone.
 
-2. *Issuer-hiding.* Presentations of a Moderator credential reveal
-   nothing about the underlying Anchor beyond membership in the
-   Moderator's accepted Anchor set. This is a computational property;
-   the adversary class under which it holds depends on the construction.
+2. *Issuer-hiding.* A Moderator-credential presentation reveals that the
+   underlying Anchor is in the Moderator's accepted Anchor set, but not which
+   Anchor issued the Anchor credential.
 
-3. *Post-issuance unlinkability of Anchor credentials against quantum
-   adversaries.* Presentations of an Anchor credential are unlinkable to their
-   issuance against a computationally bounded adversary that records issuance
-   transcripts and later applies quantum computation.
+3. *Anchor-credential post-issuance unlinkability.* A Moderator cannot link an
+   Anchor-credential presentation to its issuance transcript. Constructions are
+   expected to preserve this property against adversaries that record issuance
+   traffic and later gain access to quantum computation.
 
-A successful presentation conveys to the Origin only the presence of a valid
-Moderator credential under the policy; an unsuccessful presentation conveys
-absence. No attribute, score, or policy-decision value is read by the Origin.
+A successful presentation tells the Origin that the Client holds a Moderator
+credential satisfying the Origin's policy. It does not reveal the Client's
+identity, the underlying Anchor, or a score assigned by the Moderator.
 
-TODO: game-based or simulation-based statements of each property once the
-construction interface is fixed.
+## Threat Model
+
+The properties above are cryptographic properties of the protocol transcript.
+They do not hide information available outside the transcript, such as network
+metadata, request contents, timing, or user-agent fingerprinting.
+
+Collusion changes the privacy properties. For example, an Origin and Moderator
+that share request timing, network metadata, and validation logs may be able to
+link presentations even when the credential presentation itself is unlinkable.
+Deployment sections describe which entities need to be separated for a given
+privacy claim.
+
+## Anonymity Sets
+
+The strength of these properties depends on anonymity-set size. For
+Moderator-credential unlinkability, the relevant set is the population of
+Clients holding credentials under the same Moderator policy. For issuer-hiding,
+the relevant set is the Moderator's accepted Anchor set. A Moderator with one
+accepted Anchor provides no issuer-hiding.
+
+Deployments should avoid policy choices, key rotations, or Anchor-set changes
+that partition Clients into small sets.
+
+## State
+
+Moderator credentials can carry policy state, such as quota or revocation state.
+State updates must not give an Origin or Moderator a stable handle that links
+future presentations by the same Client.
+
+The details are construction-specific. Companion documents need to specify what
+state is carried, who can update it, and what information is revealed by each
+update.
 
 ## Side Channels
 
-Privacy-relevant surfaces that lie outside the cryptographic envelope:
+MoLE does not address all channels that can identify Clients. Relevant channels
+include network metadata between Client and Anchor, Client and Moderator, and
+Client and Origin; presentation timing; request contents; accepted-set churn;
+policy changes; and key rotation.
 
-- *Network metadata* between Client and Anchor, Client and Moderator,
-  and Client and Origin. Oblivious HTTP {{?RFC9458}} between the Client
-  and Anchor or Moderator is the standard mitigation; the Client-Origin
-  channel is the responsibility of the user agent.
-- *Presentation timing* at the Origin, and at the Moderator (which
-  observes credential issuance).
-- *Accepted-set and policy churn* --- the rate at which a Moderator admits or
-  removes Anchors or changes the policy. Public churn correlated with presentation timing is
-  itself an identifying channel.
-- *Key rotation* at any of Anchor, Moderator, or Origin. Rotation
-  schedules must not partition Clients into small effective anonymity
-  sets.
-
-TODO: per-channel treatment, including which mitigations are in scope of this
-architecture, the user agent, or the deployment.
-
-## Anonymity-Set Sizing
-
-The architecture's properties are parameterized by anonymity-set size. For
-Moderator-credential unlinkability the relevant set is the population of
-Clients holding a credential under the same Moderator policy; for issuer-hiding
-it is the Moderator's accepted Anchor set. Deployments must ensure both are
-meaningfully large. A Moderator with a single accepted Anchor offers no
-issuer-hiding.
-
-TODO: minimum-size guidance, set-size disclosure, churn-rate bounds.
-
-## State-Bearing Presentation
-
-The Moderator credential bears policy state across presentations: quotas,
-per-credential reputation updates, and revocation hints. The construction must
-update this state in a way that is itself unlinkable to credentials, so that
-Moderator + Origin coalitions cannot correlate state versions across
-presentations to a single Client.
-
-When delegated user-agent behaviour at one Origin causes a reputation update on
-a Moderator credential, a subsequent presentation at a different Origin under
-the same Moderator must not allow correlation via the state version referenced.
-
-TODO: state-update construction requirements.
-
-## Behavioural Aggregation
-
-Even when individual presentations convey only presence or absence, the
-aggregation of those events across many presentations forms a behavioural side
-channel: patterns in presentation frequency, timing, and Origin distribution
-may identify a Client over time. Mitigation belongs at the same layer as
-network-metadata side channels.
-
-TODO: full treatment, including the relationship between aggregation channels
-and the anonymity-set sizing required for unlinkability claims to remain
-meaningful.
+These channels need deployment-specific mitigations. For example, {{OBLIVIOUS-HTTP}}
+can hide network metadata between the Client and Anchor or
+Moderator. The Client-Origin channel is outside this architecture.
 
 
 # Security Considerations
 
 TODO Security
+
+# Privacy Considerations
+
+TODO Privacy
+Consideration section is more widespread than properties
 
 
 # IANA Considerations
