@@ -93,7 +93,9 @@ a number of aspects.
 Firstly, MoLE provides greater utility to Origins by enabling Moderators to
 dynamically adjust access in response to how a credential is used. Privacy Pass
 enforces a flat rate limit based on access to an underlying credential which
-cannot be curtailed even if usage is obviously abusive.
+cannot be curtailed even if usage is obviously abusive. This leads to
+fundamentally different information flows, privacy analysis and cryptographic
+techniques.
 
 Secondly, MoLE targets a deployment in an open ecosystem where multiple Anchors,
 Moderators and Origins coexist with different policies. This openness, necessary
