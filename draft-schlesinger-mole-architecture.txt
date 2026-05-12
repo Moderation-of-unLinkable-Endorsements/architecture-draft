@@ -4,8 +4,8 @@
 
 Network Working Group                                     S. Schlesinger
 Internet-Draft                                                Google LLC
-Intended status: Informational                               11 May 2026
-Expires: 12 November 2026
+Intended status: Informational                               12 May 2026
+Expires: 13 November 2026
 
 
                            MoLE Architecture
@@ -44,7 +44,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 12 November 2026.
+   This Internet-Draft will expire on 13 November 2026.
 
 Copyright Notice
 
@@ -68,19 +68,25 @@ Table of Contents
      2.2.  User Agents Acting Under Delegation
      2.3.  Private Access Control
    3.  Conventions and Definitions
-   4.  Architecture overview
+   4.  Architecture
+     4.1.  Overview
+     4.2.  Protocols
+       4.2.1.  Endorsement
+       4.2.2.  Credential Issuance
+       4.2.3.  Credential Presentation
    5.  Privacy Properties
      5.1.  Goals
      5.2.  Threat Model
      5.3.  Anonymity Sets
      5.4.  State
      5.5.  Side Channels
-   6.  Security Considerations
-   7.  Privacy Considerations
-   8.  IANA Considerations
-   9.  References
-     9.1.  Normative References
-     9.2.  Informative References
+   6.  Deployment Considerations
+   7.  Security Considerations
+   8.  Privacy Considerations
+   9.  IANA Considerations
+   10. References
+     10.1.  Normative References
+     10.2.  Informative References
    Acknowledgments
    Author's Address
 
@@ -102,28 +108,52 @@ Table of Contents
    users; [PERVASIVE-MONITORING] treats pervasive monitoring as an
    attack.
 
-   MoLE reduces this friction without requiring the user to reveal a
-   stable identity to an Origin or disclose which scarce signals they
-   can use.  An Anchor issues credentials from scarce signals.  A
-   Moderator evaluates presentations of Anchor credentials under a
-   policy and issues Moderator credentials.  A Client presents a
-   Moderator credential to an Origin with a request.
+   MoLE aims to reduce this friction, whilst maintaining the privacy of
+   users, by enabling new information flows between Origins subject to
+   cryptographically enforced limits.
 
-   The Anchor/Moderator split avoids binding an Origin's admission
-   policy to one source of scarcity.  A Moderator commits to a policy.
-   An Origin chooses one or more Moderators.  The Moderator can then
-   add, remove, or restrict Anchors without requiring Origins or Clients
-   to reconfigure.  Issuer-hiding presentation makes this useful: the
-   Origin learns that the underlying Anchor is in the Moderator's
-   accepted set, but not which Anchor issued the credential.
+   Some Origins have access to relatively rich context about a user,
+   e.g. because the user maintains an account, made a payment or
+   provided some other scare signal to the Origin.  MoLE enables such
+   Origins to act as Anchors which issue Endorsements to users, suitable
+   for bootstrapping trust in other contexts.
+
+   MoLE enables multiple Origins to share an access policy through a
+   Moderator.  The Moderator holds a list of trusted Anchors, and can
+   use the Anchor's Endorsements to issue Credentials to Users which are
+   suitable for use on any of it's associated Origins.  The Moderator
+   can adjust their confidence in the credentials presented by a user
+   over time.  This allows the Moderator to reduce friction for honest
+   users and increase friction for users which are judged to be
+   misbehaving (e.g. spamming, credential stuffing, etc).
+
+   MoLE delivers this functionality whilst providing strong privacy
+   protections for users.  Origins and Moderators cannot learn which
+   Anchors a user has access to, only that it holds at least one
+   suitable Endorsement from the Moderator's trusted list (Anchor
+   Blindness).  Further, even if Origins, Moderators and Anchors all
+   collude in an attempt to violate User privacy, the user's
+   presentation of their credentials and endorsements cannot be linked
+   across different contexts (Unlinkability).
 
    MoLE is inspired by the Privacy Pass architecture [RFC9576], but
-   differs in three ways.  First, Moderator issuance depends on an
-   issuer-hiding presentation of an Anchor credential.  Second, Anchor-
-   credential presentation is intended to remain secure against future
-   quantum adversaries.  Third, Moderator credentials can carry policy
-   state across presentations.  These differences motivate a separate
-   architecture.
+   differs in a number of aspects.
+
+   Firstly, MoLE provides greater utility to Origins by enabling
+   Moderators to dynamically adjust access in response to how a
+   credential is used.  Privacy Pass enforces a flat rate limit based on
+   access to an underlying credential which cannot be curtailed even if
+   usage is obviously abusive.  This leads to fundamentally different
+   information flows, privacy analysis and cryptographic techniques.
+
+   Secondly, MoLE targets a deployment in an open ecosystem where
+   multiple Anchors, Moderators and Origins coexist with different
+   policies.  This openness, necessary for deployment in contexts like
+   the Web, requires stronger privacy properties than are delivered by
+   Privacy Pass.  For example, MoLE cannot rely on non-collusion
+   assumptions between Issuer and Attester as is required in Privacy
+   Pass's rate-limiting deployments and must instead ensure it's privacy
+   properties are founded on suitable cryptographic assumptions.
 
    This document specifies MoLE roles, privacy and security
    requirements, and deployment considerations.  Wire protocols and
@@ -244,19 +274,23 @@ Table of Contents
 
    The following terms are used throughout this document:
 
-   *Client:*  An entity that seeks authorization to an Origin.
+   *Client:*  An entity that seeks access to resources held by an
+      Origin.
 
    *Origin:*  An entity that consumes presentations from Clients and
       uses them to make authorization decisions.
 
+   *Anchor:*  An entity that issues Endorsements to Clients based on
+      scarce signals.
+
+   *Endorsement:*  A cryptographic object issued by an Anchor to a
+      Client.
+
    *Moderator:*  An entity that consumes presentations from Clients and
       issues credentials according to a policy.
 
-   *Anchor:*  An entity that issues credentials to Clients based on
-      scarce signals.
-
-   *Credential:*  A cryptographic object issued by an Anchor or
-      Moderator to a Client.
+   *Credential:*  A cryptographic object issued by a Moderator to a
+      Client.
 
    *Presentation:*  The mechanism by which Clients prove possession of a
       credential satisfying specified attributes.
@@ -264,7 +298,9 @@ Table of Contents
    *Policy:*  Rules used by a Moderator or Origin to evaluate
       presentations.
 
-4.  Architecture overview
+4.  Architecture
+
+4.1.  Overview
 
    The Client obtains a credential from an Anchor, presents it to a
    Moderator, and uses the resulting Moderator credential when sending
@@ -296,6 +332,14 @@ CredentialFinalization     |                        |                       |
     |                      |                        |                       |
 
                      Figure 1: MoLE Architecture
+
+4.2.  Protocols
+
+4.2.1.  Endorsement
+
+4.2.2.  Credential Issuance
+
+4.2.3.  Credential Presentation
 
 5.  Privacy Properties
 
@@ -374,21 +418,23 @@ CredentialFinalization     |                        |                       |
    Anchor or Moderator.  The Client-Origin channel is outside this
    architecture.
 
-6.  Security Considerations
+6.  Deployment Considerations
+
+7.  Security Considerations
 
    TODO Security
 
-7.  Privacy Considerations
+8.  Privacy Considerations
 
    TODO Privacy Consideration section is more widespread than properties
 
-8.  IANA Considerations
+9.  IANA Considerations
 
    This document has no IANA actions.
 
-9.  References
+10.  References
 
-9.1.  Normative References
+10.1.  Normative References
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -399,7 +445,7 @@ CredentialFinalization     |                        |                       |
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
               May 2017, <https://www.rfc-editor.org/rfc/rfc8174>.
 
-9.2.  Informative References
+10.2.  Informative References
 
    [INTERNET-END-USER]
               Nottingham, M., "The Internet is for End Users", RFC 8890,
