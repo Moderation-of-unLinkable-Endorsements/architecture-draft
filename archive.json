@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-05-10T03:38:18.438826+00:00",
+  "timestamp": "2026-05-12T03:35:24.121689+00:00",
   "repo": "Moderation-of-unLinkable-Endorsements/architecture-draft",
   "labels": [
     {
@@ -49,6 +49,128 @@
       "color": "ffffff"
     }
   ],
-  "issues": [],
-  "pulls": []
+  "issues": [
+    {
+      "number": 2,
+      "id": "I_kwDOSX6krs8AAAABBz55Yw",
+      "title": "One `base-drafts` repository",
+      "url": "https://github.com/Moderation-of-unLinkable-Endorsements/architecture-draft/issues/2",
+      "state": "CLOSED",
+      "author": "thibmeu",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "The template the ID draft are using support having multiple drafts within them. I feel this would make it simpler than multiple repositories to read between them.\n\nVery much a nit to simplify writting across multiple drafts, as they're likely to be iterated upon fast",
+      "createdAt": "2026-05-10T18:48:04Z",
+      "updatedAt": "2026-05-11T14:56:07Z",
+      "closedAt": "2026-05-11T14:56:07Z",
+      "comments": [
+        {
+          "author": "SamuelSchlesinger",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "I am personally in favor of trying out the multiple repos for now so folks can just follow along with the ones they are interested in.",
+          "createdAt": "2026-05-10T20:04:03Z",
+          "updatedAt": "2026-05-10T20:04:03Z"
+        },
+        {
+          "author": "SamuelSchlesinger",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Also, was thinking that a couple of them would end up with multiple drafts, like the crypto probably will have at least 2, maybe more depending on how we factor them. I think you could imagine a couple interface drafts, I probably should have named it that instead of http.",
+          "createdAt": "2026-05-10T20:04:59Z",
+          "updatedAt": "2026-05-10T20:04:59Z"
+        },
+        {
+          "author": "thibmeu",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "this feels like an early optimisation. happy to close that issue, just feels that this is something that might come back",
+          "createdAt": "2026-05-11T13:15:34Z",
+          "updatedAt": "2026-05-11T13:15:34Z"
+        }
+      ]
+    }
+  ],
+  "pulls": [
+    {
+      "number": 1,
+      "id": "PR_kwDOSX6krs7aBxwh",
+      "title": "First stab at intro, use-cases, and some privacy properties",
+      "url": "https://github.com/Moderation-of-unLinkable-Endorsements/architecture-draft/pull/1",
+      "state": "MERGED",
+      "author": "SamuelSchlesinger",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Was trying to just do intro and use cases, but ended up feeling incomplete without some of the privacy properties.",
+      "createdAt": "2026-05-10T18:03:03Z",
+      "updatedAt": "2026-05-11T16:22:52Z",
+      "baseRepository": "Moderation-of-unLinkable-Endorsements/architecture-draft",
+      "baseRefName": "main",
+      "baseRefOid": "41e7bdf5d7c7b40dbe4ca08f0a7a349ea28849ac",
+      "headRepository": "Moderation-of-unLinkable-Endorsements/architecture-draft",
+      "headRefName": "samschles/intro-use-cases-and-some-privacy-properties",
+      "headRefOid": "b662b9a7a45557b08535f04b5a8ed1db7752abb5",
+      "closedAt": "2026-05-11T16:22:52Z",
+      "mergedAt": "2026-05-11T16:22:52Z",
+      "mergedBy": "SamuelSchlesinger",
+      "mergeCommit": {
+        "oid": "0585d287479f8d00da7aa8ca76e7c2dff9376c1d"
+      },
+      "comments": [
+        {
+          "author": "thibmeu",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "/approve",
+          "createdAt": "2026-05-11T14:54:43Z",
+          "updatedAt": "2026-05-11T14:54:43Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOSX6krs7-Mx-w",
+          "commit": {
+            "abbreviatedOid": "b662b9a"
+          },
+          "author": "thibmeu",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "created #3 with comments. good to go",
+          "createdAt": "2026-05-11T14:55:04Z",
+          "updatedAt": "2026-05-11T14:55:04Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "id": "PR_kwDOSX6krs7aS2A7",
+      "title": "tighten the first PR",
+      "url": "https://github.com/Moderation-of-unLinkable-Endorsements/architecture-draft/pull/3",
+      "state": "MERGED",
+      "author": "thibmeu",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [
+        "thibmeu"
+      ],
+      "labels": [
+        "enhancement"
+      ],
+      "body": "1. make a shorter and too the point introducion\r\n2. add a terminology section (inspired by privacy pass)\r\n3. have a first pass at an arch diagram\r\n4. rework privacy section\r\n\r\ni did not touch the use case which, while long, do the job. still no abstract\r\ni'd also like to start workiong on multiple diagramsx, especially the joint-deployment which are key to alleviate the performance concerns imo\r\n\r\ni've also add aasvg to create diagrams",
+      "createdAt": "2026-05-11T14:41:00Z",
+      "updatedAt": "2026-05-11T14:51:44Z",
+      "baseRepository": "Moderation-of-unLinkable-Endorsements/architecture-draft",
+      "baseRefName": "samschles/intro-use-cases-and-some-privacy-properties",
+      "baseRefOid": "1380d71b92b7679b91ef9268e656a8b81988a19e",
+      "headRepository": "thibmeu/architecture-draft",
+      "headRefName": "more-intro-use-cases",
+      "headRefOid": "6eddfbf57d1b679d1ca974329b0745aba051cf24",
+      "closedAt": "2026-05-11T14:51:43Z",
+      "mergedAt": "2026-05-11T14:51:43Z",
+      "mergedBy": "SamuelSchlesinger",
+      "mergeCommit": {
+        "oid": "b662b9a7a45557b08535f04b5a8ed1db7752abb5"
+      },
+      "comments": [],
+      "reviews": []
+    }
+  ]
 }
