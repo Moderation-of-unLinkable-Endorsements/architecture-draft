@@ -212,7 +212,7 @@ architecture document but may be included in companion documents.
 The following terms are used throughout this document:
 
 **Client:**
-: An entity that seeks access to  resources held by an Origin.
+: An entity that seeks access to resources held by an Origin.
 
 **Origin:**
 : An entity that consumes presentations from Clients and uses them to make
