@@ -1241,19 +1241,19 @@ enforced limits.<a href="#section-1-3" class="pilcrow">¶</a></p>
 the user maintains an account, made a payment or provided some other scare
 signal to the Origin. MoLE enables such Origins to act as Anchors which issue
 Endorsements to users, suitable for bootstrapping trust in other contexts.<a href="#section-1-4" class="pilcrow">¶</a></p>
-<p id="section-1-5">MoLE enables multiple Origins to share an access policy through a new party, a
-Moderator. The Moderator holds a list of trusted Anchors, and can use their
+<p id="section-1-5">MoLE enables multiple Origins to share an access policy through a
+Moderator. The Moderator holds a list of trusted Anchors, and can use the Anchor's
 Endorsements to issue Credentials to Users which are suitable for use on any of
 it's associated Origins. The Moderator can adjust their confidence in the
 credentials presented by a user over time. This allows the Moderator to reduce
-friction for well-behaved users and increase friction for users which are
+friction for honest users and increase friction for users which are judged to be
 misbehaving (e.g. spamming, credential stuffing, etc).<a href="#section-1-5" class="pilcrow">¶</a></p>
-<p id="section-1-6">Building such a system without privacy would be trivial, but unacceptable. MoLE
-delivers strong privacy protections for users. Origins and Moderators cannot
+<p id="section-1-6">MoLE
+delivers this functionality whilst providing strong privacy protections for users. Origins and Moderators cannot
 learn which Anchors a user has access to, only that it holds at least one
 suitable Endorsement from the Moderator's trusted list (Anchor Blindness).
 Further, even if Origins, Moderators and Anchors all collude in an attempt to
-violate User Privacy, the user's presentation of their credentials and
+violate User privacy, the user's presentation of their credentials and
 endorsements cannot be linked across different contexts (Unlinkability).<a href="#section-1-6" class="pilcrow">¶</a></p>
 <p id="section-1-7">MoLE is inspired by the Privacy Pass architecture <span>[<a href="#RFC9576" class="cite xref">RFC9576</a>]</span>, but differs in
 a number of aspects.<a href="#section-1-7" class="pilcrow">¶</a></p>
@@ -1269,7 +1269,7 @@ for deployment in contexts like the Web, requires stronger privacy properties
 than are delivered by Privacy Pass. For example, MoLE cannot rely on
 non-collusion assumptions between Issuer and Attester as is required in Privacy
 Pass's rate-limiting deployments and must instead ensure it's privacy properties
-are founded on suitable Post-Quantum cryptographic assumptions.<a href="#section-1-9" class="pilcrow">¶</a></p>
+are founded on suitable cryptographic assumptions.<a href="#section-1-9" class="pilcrow">¶</a></p>
 <p id="section-1-10">This document specifies MoLE roles, privacy and security requirements, and
 deployment considerations. Wire protocols and cryptographic instantiations are
 specified in companion documents.<a href="#section-1-10" class="pilcrow">¶</a></p>
