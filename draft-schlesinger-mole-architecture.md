@@ -62,25 +62,48 @@ privacy preferences and users with accessibility needs. {{INTERNET-END-USER}}
 directs the IETF to consider the interests of end users;
 {{PERVASIVE-MONITORING}} treats pervasive monitoring as an attack.
 
-MoLE reduces this friction without requiring the user to reveal a stable
-identity to an Origin or disclose which scarce signals they can use. An Anchor
-issues credentials from scarce signals. A Moderator evaluates presentations of
-Anchor credentials under a policy and issues Moderator credentials. A Client
-presents a Moderator credential to an Origin with a request.
+MoLE aims to reduce this friction, whilst maintaining the privacy of users, by
+enabling new information flows between Origins subject to cryptographically
+enforced limits.
 
-The Anchor/Moderator split avoids binding an Origin's admission policy to one
-source of scarcity. A Moderator commits to a policy. An Origin chooses one or
-more Moderators. The Moderator can then add, remove, or restrict Anchors without
-requiring Origins or Clients to reconfigure. Issuer-hiding presentation makes
-this useful: the Origin learns that the underlying Anchor is in the Moderator's
-accepted set, but not which Anchor issued the credential.
+Some Origins have access to relatively rich context about a user, e.g. because
+the user maintains an account, made a payment or provided some other scare
+signal to the Origin. MoLE enables such Origins to act as Anchors which issue
+Endorsements to users, suitable for bootstrapping trust in other contexts.
+
+MoLE enables multiple Origins to share an access policy through a
+Moderator. The Moderator holds a list of trusted Anchors, and can use the Anchor's
+Endorsements to issue Credentials to Users which are suitable for use on any of
+it's associated Origins. The Moderator can adjust their confidence in the
+credentials presented by a user over time. This allows the Moderator to reduce
+friction for honest users and increase friction for users which are judged to be
+misbehaving (e.g. spamming, credential stuffing, etc).
+
+MoLE
+delivers this functionality whilst providing strong privacy protections for users. Origins and Moderators cannot
+learn which Anchors a user has access to, only that it holds at least one
+suitable Endorsement from the Moderator's trusted list (Anchor Blindness).
+Further, even if Origins, Moderators and Anchors all collude in an attempt to
+violate User privacy, the user's presentation of their credentials and
+endorsements cannot be linked across different contexts (Unlinkability).
 
 MoLE is inspired by the Privacy Pass architecture {{RFC9576}}, but differs in
-three ways. First, Moderator issuance depends on an issuer-hiding presentation
-of an Anchor credential. Second, Anchor-credential presentation is intended to
-remain secure against future quantum adversaries. Third, Moderator credentials
-can carry policy state across presentations. These differences motivate a
-separate architecture.
+a number of aspects.
+
+Firstly, MoLE provides greater utility to Origins by enabling Moderators to
+dynamically adjust access in response to how a credential is used. Privacy Pass
+enforces a flat rate limit based on access to an underlying credential which
+cannot be curtailed even if usage is obviously abusive. This leads to
+fundamentally different information flows, privacy analysis and cryptographic
+techniques.
+
+Secondly, MoLE targets a deployment in an open ecosystem where multiple Anchors,
+Moderators and Origins coexist with different policies. This openness, necessary
+for deployment in contexts like the Web, requires stronger privacy properties
+than are delivered by Privacy Pass. For example, MoLE cannot rely on
+non-collusion assumptions between Issuer and Attester as is required in Privacy
+Pass's rate-limiting deployments and must instead ensure it's privacy properties
+are founded on suitable cryptographic assumptions.
 
 This document specifies MoLE roles, privacy and security requirements, and
 deployment considerations. Wire protocols and cryptographic instantiations are
@@ -189,21 +212,24 @@ architecture document but may be included in companion documents.
 The following terms are used throughout this document:
 
 **Client:**
-: An entity that seeks authorization to an Origin.
+: An entity that seeks access to resources held by an Origin.
 
 **Origin:**
 : An entity that consumes presentations from Clients and uses them to make
   authorization decisions.
 
+**Anchor:**
+: An entity that issues Endorsements to Clients based on scarce signals.
+
+**Endorsement:**
+: A cryptographic object issued by an Anchor to a Client.
+
 **Moderator:**
 : An entity that consumes presentations from Clients and issues credentials
   according to a policy.
 
-**Anchor:**
-: An entity that issues credentials to Clients based on scarce signals.
-
 **Credential:**
-: A cryptographic object issued by an Anchor or Moderator to a Client.
+: A cryptographic object issued by a Moderator to a Client.
 
 **Presentation:**
 : The mechanism by which Clients prove possession of a credential satisfying
@@ -212,7 +238,9 @@ The following terms are used throughout this document:
 **Policy:**
 : Rules used by a Moderator or Origin to evaluate presentations.
 
-# Architecture overview {#architecture}
+# Architecture {#architecture}
+
+## Overview
 
 The Client obtains a credential from an Anchor, presents it to a Moderator, and
 uses the resulting Moderator credential when sending requests to an Origin.
@@ -244,8 +272,13 @@ CredentialFinalization     |                        |                       |
 ~~~
 {: #fig-mole-architecture title="MoLE Architecture"}
 
+## Protocols
 
+### Endorsement
 
+### Credential Issuance
+
+### Credential Presentation
 
 # Privacy Properties {#privacy-properties}
 
@@ -317,6 +350,7 @@ These channels need deployment-specific mitigations. For example, {{OBLIVIOUS-HT
 can hide network metadata between the Client and Anchor or
 Moderator. The Client-Origin channel is outside this architecture.
 
+# Deployment Considerations
 
 # Security Considerations
 
