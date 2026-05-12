@@ -238,7 +238,9 @@ The following terms are used throughout this document:
 **Policy:**
 : Rules used by a Moderator or Origin to evaluate presentations.
 
-# Architecture overview {#architecture}
+# Architecture {#architecture}
+
+## Overview
 
 The Client obtains a credential from an Anchor, presents it to a Moderator, and
 uses the resulting Moderator credential when sending requests to an Origin.
@@ -270,8 +272,13 @@ CredentialFinalization     |                        |                       |
 ~~~
 {: #fig-mole-architecture title="MoLE Architecture"}
 
+## Protocols
 
+### Endorsement
 
+### Credential Issuance
+
+### Credential Presentation
 
 # Privacy Properties {#privacy-properties}
 
@@ -343,6 +350,7 @@ These channels need deployment-specific mitigations. For example, {{OBLIVIOUS-HT
 can hide network metadata between the Client and Anchor or
 Moderator. The Client-Origin channel is outside this architecture.
 
+# Deployment Considerations
 
 # Security Considerations
 
