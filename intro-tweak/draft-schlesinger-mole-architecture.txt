@@ -68,19 +68,25 @@ Table of Contents
      2.2.  User Agents Acting Under Delegation
      2.3.  Private Access Control
    3.  Conventions and Definitions
-   4.  Architecture overview
+   4.  Architecture
+     4.1.  Overview
+     4.2.  Protocols
+       4.2.1.  Endorsement
+       4.2.2.  Credential Issuance
+       4.2.3.  Credential Presentation
    5.  Privacy Properties
      5.1.  Goals
      5.2.  Threat Model
      5.3.  Anonymity Sets
      5.4.  State
      5.5.  Side Channels
-   6.  Security Considerations
-   7.  Privacy Considerations
-   8.  IANA Considerations
-   9.  References
-     9.1.  Normative References
-     9.2.  Informative References
+   6.  Deployment Considerations
+   7.  Security Considerations
+   8.  Privacy Considerations
+   9.  IANA Considerations
+   10. References
+     10.1.  Normative References
+     10.2.  Informative References
    Acknowledgments
    Author's Address
 
@@ -292,7 +298,9 @@ Table of Contents
    *Policy:*  Rules used by a Moderator or Origin to evaluate
       presentations.
 
-4.  Architecture overview
+4.  Architecture
+
+4.1.  Overview
 
    The Client obtains a credential from an Anchor, presents it to a
    Moderator, and uses the resulting Moderator credential when sending
@@ -324,6 +332,14 @@ CredentialFinalization     |                        |                       |
     |                      |                        |                       |
 
                      Figure 1: MoLE Architecture
+
+4.2.  Protocols
+
+4.2.1.  Endorsement
+
+4.2.2.  Credential Issuance
+
+4.2.3.  Credential Presentation
 
 5.  Privacy Properties
 
@@ -402,21 +418,23 @@ CredentialFinalization     |                        |                       |
    Anchor or Moderator.  The Client-Origin channel is outside this
    architecture.
 
-6.  Security Considerations
+6.  Deployment Considerations
+
+7.  Security Considerations
 
    TODO Security
 
-7.  Privacy Considerations
+8.  Privacy Considerations
 
    TODO Privacy Consideration section is more widespread than properties
 
-8.  IANA Considerations
+9.  IANA Considerations
 
    This document has no IANA actions.
 
-9.  References
+10.  References
 
-9.1.  Normative References
+10.1.  Normative References
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -427,7 +445,7 @@ CredentialFinalization     |                        |                       |
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
               May 2017, <https://www.rfc-editor.org/rfc/rfc8174>.
 
-9.2.  Informative References
+10.2.  Informative References
 
    [INTERNET-END-USER]
               Nottingham, M., "The Internet is for End Users", RFC 8890,
