@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-05-12T03:35:24.121689+00:00",
+  "timestamp": "2026-05-14T03:42:25.127927+00:00",
   "repo": "Moderation-of-unLinkable-Endorsements/architecture-draft",
   "labels": [
     {
@@ -55,15 +55,15 @@
       "id": "I_kwDOSX6krs8AAAABBz55Yw",
       "title": "One `base-drafts` repository",
       "url": "https://github.com/Moderation-of-unLinkable-Endorsements/architecture-draft/issues/2",
-      "state": "CLOSED",
+      "state": "OPEN",
       "author": "thibmeu",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "The template the ID draft are using support having multiple drafts within them. I feel this would make it simpler than multiple repositories to read between them.\n\nVery much a nit to simplify writting across multiple drafts, as they're likely to be iterated upon fast",
       "createdAt": "2026-05-10T18:48:04Z",
-      "updatedAt": "2026-05-11T14:56:07Z",
-      "closedAt": "2026-05-11T14:56:07Z",
+      "updatedAt": "2026-05-13T21:17:46Z",
+      "closedAt": null,
       "comments": [
         {
           "author": "SamuelSchlesinger",
@@ -85,6 +85,20 @@
           "body": "this feels like an early optimisation. happy to close that issue, just feels that this is something that might come back",
           "createdAt": "2026-05-11T13:15:34Z",
           "updatedAt": "2026-05-11T13:15:34Z"
+        },
+        {
+          "author": "SamuelSchlesinger",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "I think we should probably indeed merge them for now actually.",
+          "createdAt": "2026-05-13T21:17:20Z",
+          "updatedAt": "2026-05-13T21:17:20Z"
+        },
+        {
+          "author": "SamuelSchlesinger",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Was renaming each draft to -molegroup- instead of -schlesinger- and opening PRs in each repository is already annoying.",
+          "createdAt": "2026-05-13T21:17:46Z",
+          "updatedAt": "2026-05-13T21:17:46Z"
         }
       ]
     }
@@ -102,7 +116,7 @@
       "labels": [],
       "body": "Was trying to just do intro and use cases, but ended up feeling incomplete without some of the privacy properties.",
       "createdAt": "2026-05-10T18:03:03Z",
-      "updatedAt": "2026-05-11T16:22:52Z",
+      "updatedAt": "2026-05-12T12:45:32Z",
       "baseRepository": "Moderation-of-unLinkable-Endorsements/architecture-draft",
       "baseRefName": "main",
       "baseRefOid": "41e7bdf5d7c7b40dbe4ca08f0a7a349ea28849ac",
@@ -171,6 +185,251 @@
       },
       "comments": [],
       "reviews": []
+    },
+    {
+      "number": 4,
+      "id": "PR_kwDOSX6krs7amzfI",
+      "title": "Adjust Intro and add Endorsement as a term",
+      "url": "https://github.com/Moderation-of-unLinkable-Endorsements/architecture-draft/pull/4",
+      "state": "MERGED",
+      "author": "dennisjackson",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "I've made a pass on the intro. Mostly to make the information flows a bit more explicit and the distinction with Privacy Pass a bit sharper. \r\n\r\nGiven we're using Endorsements in the name, something in the architecture should be called 'Endorsement'. I think it makes sense for Anchors to issue Endorsements and Moderators to issue Credentials. \r\n\r\n",
+      "createdAt": "2026-05-12T09:23:54Z",
+      "updatedAt": "2026-05-12T12:45:31Z",
+      "baseRepository": "Moderation-of-unLinkable-Endorsements/architecture-draft",
+      "baseRefName": "main",
+      "baseRefOid": "0585d287479f8d00da7aa8ca76e7c2dff9376c1d",
+      "headRepository": "Moderation-of-unLinkable-Endorsements/architecture-draft",
+      "headRefName": "intro-tweak",
+      "headRefOid": "592bf217056d18fa43aead854bb48a98dda5a5ec",
+      "closedAt": "2026-05-12T10:51:00Z",
+      "mergedAt": "2026-05-12T10:51:00Z",
+      "mergedBy": "dennisjackson",
+      "mergeCommit": {
+        "oid": "906f7940a7d9cdfd00b0ac05b850ebeeb510e909"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOSX6krs7-kXGZ",
+          "commit": {
+            "abbreviatedOid": "90a9873"
+          },
+          "author": "thibmeu",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "the split between endorsment and credential is great. the added text in the intro adds a bit of precision\n\nonly thing to fix is the reference to privacy pass which now seems incorrect",
+          "createdAt": "2026-05-12T09:25:52Z",
+          "updatedAt": "2026-05-12T10:02:13Z",
+          "comments": [
+            {
+              "originalPosition": 78,
+              "body": "to confirm: this means that the endorsement can take a lot of forms, not only a credential?\n\nthinking: blindrsa, signatures, token, etc",
+              "createdAt": "2026-05-12T09:25:52Z",
+              "updatedAt": "2026-05-12T10:02:13Z"
+            },
+            {
+              "originalPosition": 81,
+              "body": "is cryptographic made to mean it's verifiable by another party? something else?",
+              "createdAt": "2026-05-12T09:26:29Z",
+              "updatedAt": "2026-05-12T10:02:13Z"
+            },
+            {
+              "originalPosition": 25,
+              "body": "do we have to mention it's a new party? maybe \"a party we introduce and call a Moderator\" instead\n\n```suggestion\nMoLE enables multiple Origins to share an access policy through a\n```",
+              "createdAt": "2026-05-12T09:43:36Z",
+              "updatedAt": "2026-05-12T10:02:13Z"
+            },
+            {
+              "originalPosition": 26,
+              "body": "I had to re-read `their` and infer it came from the Anchor based on \"Endorsement\". better write it directly\n\n```suggestion\nModerator. The Moderator holds a list of trusted Anchors, and can use the Anchor's\n```",
+              "createdAt": "2026-05-12T09:47:02Z",
+              "updatedAt": "2026-05-12T10:02:13Z"
+            },
+            {
+              "originalPosition": 30,
+              "body": "personal bias: well-behave is a judgement from the server, while honest is the way a client perceive it's own behaviour. I think we want the later\n\n```suggestion\nfriction for honest users and increase friction for users which are\n```",
+              "createdAt": "2026-05-12T09:48:06Z",
+              "updatedAt": "2026-05-12T10:02:13Z"
+            },
+            {
+              "originalPosition": 31,
+              "body": "\"which they perceived as misbehaving\" instead of simply \"misbehaving\"?",
+              "createdAt": "2026-05-12T09:48:53Z",
+              "updatedAt": "2026-05-12T10:02:13Z"
+            },
+            {
+              "originalPosition": 33,
+              "body": "i don't think the sentence adds a lot\n\ni'm also not sure it's unacceptable if that's the only thing you can deploy and that addresses your problem.\nthere are enfvironment for which it's actupally required to have it without privacy\n\nhowever, privacy is desireable for an open web setup.\n\n```suggestion\nMoLE\n```",
+              "createdAt": "2026-05-12T09:50:47Z",
+              "updatedAt": "2026-05-12T10:02:13Z"
+            },
+            {
+              "originalPosition": 38,
+              "body": "is capitalisation on purpose?\n\n```suggestion\nviolate User's privacy, the user's presentation of their credentials and\n```",
+              "createdAt": "2026-05-12T09:52:52Z",
+              "updatedAt": "2026-05-12T10:02:13Z"
+            },
+            {
+              "originalPosition": 54,
+              "body": "not sure how to correctly phrase it, but privacy pass could allow for what we do in mole.\nwhat privacy pass does not define is state management, which we need, nor anchor blindness, which we could define as well.\n\ni feel we could say that privacy pass does not cover state management, and does not have built in primitive for blindness",
+              "createdAt": "2026-05-12T09:58:01Z",
+              "updatedAt": "2026-05-12T10:02:13Z"
+            },
+            {
+              "originalPosition": 62,
+              "body": "feels that PQ is namedropped here. i think this is something that can be left to the security and privaqcyn considerations sections, that all scheme must consider PQ safety",
+              "createdAt": "2026-05-12T10:01:24Z",
+              "updatedAt": "2026-05-12T10:02:13Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOSX6krs7-mU6h",
+          "commit": {
+            "abbreviatedOid": "90a9873"
+          },
+          "author": "dennisjackson",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-05-12T10:38:26Z",
+          "updatedAt": "2026-05-12T10:38:28Z",
+          "comments": [
+            {
+              "originalPosition": 54,
+              "body": "Hm. I think I would anchor the distinction around the difference in outcome rather than mechanic used (stateful credential, blind presentation). For example ARC is arguably a stateful privacy pass credential (since the client must update their counter). Agree it would be good to sharpen this text further though. ",
+              "createdAt": "2026-05-12T10:38:27Z",
+              "updatedAt": "2026-05-12T10:38:28Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOSX6krs7-mW7E",
+          "commit": {
+            "abbreviatedOid": "90a9873"
+          },
+          "author": "dennisjackson",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-05-12T10:39:47Z",
+          "updatedAt": "2026-05-12T10:39:48Z",
+          "comments": [
+            {
+              "originalPosition": 78,
+              "body": "I don't think that's implied by this text but I agree it would be reasonable to have an IANA registry.",
+              "createdAt": "2026-05-12T10:39:47Z",
+              "updatedAt": "2026-05-12T10:39:49Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOSX6krs7-mZ2g",
+          "commit": {
+            "abbreviatedOid": "90a9873"
+          },
+          "author": "dennisjackson",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-05-12T10:41:54Z",
+          "updatedAt": "2026-05-12T10:41:56Z",
+          "comments": [
+            {
+              "originalPosition": 81,
+              "body": "I don't think that's implied either way. I used this for commonality with the text for credential. I would interpret it to mean just that it's some bytes used in cryptographic algorithms, a pretty hazy concept. Improvements welcome!",
+              "createdAt": "2026-05-12T10:41:55Z",
+              "updatedAt": "2026-05-12T10:41:56Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 5,
+      "id": "PR_kwDOSX6krs7am84S",
+      "title": "Section Headings",
+      "url": "https://github.com/Moderation-of-unLinkable-Endorsements/architecture-draft/pull/5",
+      "state": "MERGED",
+      "author": "dennisjackson",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2026-05-12T09:31:03Z",
+      "updatedAt": "2026-05-12T12:45:12Z",
+      "baseRepository": "Moderation-of-unLinkable-Endorsements/architecture-draft",
+      "baseRefName": "intro-tweak",
+      "baseRefOid": "90a987378e574a5a8df1eed4e0333dd6db88dae7",
+      "headRepository": "Moderation-of-unLinkable-Endorsements/architecture-draft",
+      "headRefName": "outline-headings",
+      "headRefOid": "2c06cfb6e7b75804509c4c15166a594e1ef93065",
+      "closedAt": "2026-05-12T10:50:35Z",
+      "mergedAt": "2026-05-12T10:50:35Z",
+      "mergedBy": "dennisjackson",
+      "mergeCommit": {
+        "oid": "592bf217056d18fa43aead854bb48a98dda5a5ec"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOSX6krs7-laRu",
+          "commit": {
+            "abbreviatedOid": "2e8090d"
+          },
+          "author": "thibmeu",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-05-12T10:03:25Z",
+          "updatedAt": "2026-05-12T10:03:25Z",
+          "comments": [
+            {
+              "originalPosition": 15,
+              "body": "is this protocols or deployments?\n\ni favour the later as I don't think we'll dive into protocols in here, but I may be wrong",
+              "createdAt": "2026-05-12T10:03:25Z",
+              "updatedAt": "2026-05-12T10:03:25Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOSX6krs7-lbEp",
+          "commit": {
+            "abbreviatedOid": "2e8090d"
+          },
+          "author": "thibmeu",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "lgtm\n\nnot sure we'll use the protocol section, or if we'll rename it, but that's needed down the line",
+          "createdAt": "2026-05-12T10:03:56Z",
+          "updatedAt": "2026-05-12T10:03:56Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOSX6krs7-mgfa",
+          "commit": {
+            "abbreviatedOid": "2e8090d"
+          },
+          "author": "dennisjackson",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-05-12T10:46:26Z",
+          "updatedAt": "2026-05-12T10:46:28Z",
+          "comments": [
+            {
+              "originalPosition": 15,
+              "body": "I would use this section to describe the information flow of each protocol, what it achieves and assumes, but not how it's achieved. I would say Deployments might be a different section where we could walk through how sites might deploy and use it as a solution? ",
+              "createdAt": "2026-05-12T10:46:27Z",
+              "updatedAt": "2026-05-12T10:46:28Z"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
