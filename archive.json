@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-05-14T03:42:25.127927+00:00",
+  "timestamp": "2026-05-17T03:47:02.152534+00:00",
   "repo": "Moderation-of-unLinkable-Endorsements/architecture-draft",
   "labels": [
     {
@@ -62,7 +62,7 @@
       "labels": [],
       "body": "The template the ID draft are using support having multiple drafts within them. I feel this would make it simpler than multiple repositories to read between them.\n\nVery much a nit to simplify writting across multiple drafts, as they're likely to be iterated upon fast",
       "createdAt": "2026-05-10T18:48:04Z",
-      "updatedAt": "2026-05-13T21:17:46Z",
+      "updatedAt": "2026-05-14T13:44:22Z",
       "closedAt": null,
       "comments": [
         {
@@ -99,6 +99,20 @@
           "body": "Was renaming each draft to -molegroup- instead of -schlesinger- and opening PRs in each repository is already annoying.",
           "createdAt": "2026-05-13T21:17:46Z",
           "updatedAt": "2026-05-13T21:17:46Z"
+        },
+        {
+          "author": "thibmeu",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "schlesinger is fine for now. the convention for naming draft is they are named with the group name after passing an adoption call, which they have not.\nan alternative is to use the initial of authors surname",
+          "createdAt": "2026-05-14T07:29:14Z",
+          "updatedAt": "2026-05-14T07:29:14Z"
+        },
+        {
+          "author": "SamuelSchlesinger",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Right, that might be confusing, that makes sense. We can leave my name if its helpful to volunteer as \"person to bother\" about this, maybe it is helpful to have a full name in the name for that reason.",
+          "createdAt": "2026-05-14T13:44:22Z",
+          "updatedAt": "2026-05-14T13:44:22Z"
         }
       ]
     }
